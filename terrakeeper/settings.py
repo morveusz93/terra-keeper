@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'bootstrapform',
     'spiders.apps.SpidersConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [

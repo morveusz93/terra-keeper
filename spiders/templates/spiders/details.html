@@ -6,6 +6,7 @@
     <p>Species: {{spider.species}}</p>
     <p>Molt: {{spider.molt}}</p>
     <p>Size: {{spider.size}}</p>
+    <p>Owner: {{ spider.list.owner }}</p>
     <p>Added: {{spider.added}}</p>
     <a href="{% url 'spider-update' spider.id %}" class="btn btn-warning">Edit</a>
     <a href="{% url 'spider-delete' spider.id %}" class="btn btn-danger">delete</a>

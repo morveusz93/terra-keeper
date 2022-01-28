@@ -1,0 +1,15 @@
+{% extends 'main.html' %} 
+{% block content %}
+<div class="row">
+    <div class="col-4 offset-4">
+    <h1>Delete {{ obj }}? </h1>
+<form method="POST" action="">
+    {% csrf_token %}
+    <p class="my-5">Are you sure?</p>
+    <a href="{% url 'spider-details' obj.id %}" class="btn btn-primary">Back</a>
+    <input type="submit" value="Delete" class="btn btn-danger">
+</form>
+</div>
+</div>
+
+{% endblock %}

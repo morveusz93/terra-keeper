@@ -3,8 +3,7 @@
     <h1>{{spider.name}}</h1>
     <p>Genus: {{spider.genus}}</p>
     <p>Species: {{spider.species}}</p>
-    <p>Molt: {{spider.molt}}</p>
-    <p>Size: {{spider.size}}</p>
+    <p>Size: L{{spider.molt}} - {{spider.size}} DC</p>
     <p>Owner: {{ spider.list.owner }}</p>
     <p>Added: {{spider.joined}}</p>
     <a href="{% url 'spider-update' spider.id %}" class="btn btn-warning">Edit</a>

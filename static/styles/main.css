@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 body {
   background-color: #d9f2ff;
   font-family: "Poppins", sans-serif;
@@ -50,6 +52,7 @@ a {
 
 input[type="button"],
 input[type="submit"],
+a .button,
 input[type="reset"] {
   background-color: #56baed;
   border: none;

@@ -29,12 +29,13 @@ Terra Keeper will help you to organize your work with pets. You don't need stick
 
 ## Setup
 
-### To run project:
+### To run this project:
 
 - download files
 - install all requirements
-- ```
-  python manage.py makemigrations
-  python manage.py migrate
-  python manage.py runserver
+-
+ ```
+   python manage.py makemigrations
+   python manage.py migrate
+   python manage.py runserver
   ```

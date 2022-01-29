@@ -1,25 +1,48 @@
-{% extends 'main.html' %} {% load bootstrap %} {% block content %}
-<div class="row my-5">
-  <div class="col-4 offset-4">
-    {% if page == 'register' %}
-    <h1>Register user</h1>
+{% extends 'main.html' %} 
+{% load bootstrap %} 
+{% block content %} 
+
+{% if page == 'register' %}
+
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <h1 class="mt-2">Register user</h1>
+    <!-- Register Form -->
     <form action="{% url 'register' %}" method="POST">
-      {% csrf_token %} {{form|bootstrap}}
-      <input class="btn btn-success" type="submit" value="Register" />
+      {% csrf_token %}
+      {% for field in form %}
+      {{field}}
+      {% endfor %}
+      <input type="submit" class="fadeIn fifth" value="Sign up!" />
+
     </form>
 
-    <p>Already have an account? <a href="{% url 'login' %}">Log in!</a></p>
-    {% else %}
-    <h1>Login</h1>
-    <form action="{% url 'login' %}" method="POST">
-      {% csrf_token %}
-      <input type="text" name="username" placeholder="Username" />
-      <input type="password" name="password" placeholder="Password" />
-      <input class="btn btn-success" type="submit" value="Login" />
-    </form>
-    <p>You do not have an account? <a href="{% url 'register' %}">Sign up!</a></p>
-    {% endif %}
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <p>Already have an account? <a class="underlineHover" href="{% url 'login' %}">Log in!</a></p>
+    </div>
   </div>
 </div>
 
-{% endblock %}
+{% else %}
+
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <h1 class="mt-2">Login</h1>
+    <!-- Login Form -->
+    <form action="{% url 'login' %}" method="POST">
+      {% csrf_token %}
+      <input type="text" id="login" class="fadeIn second" name="username" placeholder="username" />
+      <input type="password" id="password" class="fadeIn third" name="password" placeholder="password" />
+      <input type="submit" class="fadeIn fourth" value="Log In" />
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" href="#">Forgot Password?</a>
+      <p>You do not have an account? <a class="underlineHover" href="{% url 'register' %}">Sign up!</a></p>
+    </div>
+  </div>
+</div>
+
+{% endif %} {% endblock %}

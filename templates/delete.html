@@ -5,7 +5,7 @@
 <form method="POST" action="">
     {% csrf_token %}
     <p class="my-5">Are you sure?</p>
-    <a href="{% url 'spider-details' obj.id %}" class="button">Back</a>
+    <a class="underlineHover" href="{% url 'spider-details' obj.id %}" class="button">Back</a>
     <input type="submit" value="Delete">
 </form>
 

@@ -4,7 +4,7 @@
         <h1>Profile of: {{ profile.name }}</h1>    
         <h3 class="mb-5">{{ profile.animalslist }}</h3>
         <div class="list-group">
-            {% for spider in profile.animalslist.spider_set.all %}
+            {% for spider in profile.spider_set.all %}
                 <a href="{% url 'spider-details' spider.id %}" type="button" class="list-group-item list-group-item-action">{{ spider.name }}</a>
             {% endfor %}
         </div>

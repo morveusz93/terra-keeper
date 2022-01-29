@@ -23,7 +23,9 @@ def createSpider(request):
     if request.method == "POST":
         form = SpiderForm(request.POST)
         if form.is_valid():
-            form.save()
+            spider = form.save(commit=False)            
+            spider.owner = request.user.profile
+            spider.save()
         return redirect('spiders')
 
     context = {'form': form}

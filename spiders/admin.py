@@ -1,5 +1,4 @@
 from django.contrib import admin
-from .models import Spider, AnimalsList
+from .models import Spider
 
 admin.site.register(Spider)
-admin.site.register(AnimalsList)

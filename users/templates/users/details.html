@@ -1,13 +1,11 @@
 {% extends 'main.html' %}
 {% block content %}
-<div class="row">
-    <div class="col-4 offset-4 my-5">
+
         <h1>Profile of: {{ profile.name }}</h1>    
         <h3 class="mb-5">{{ profile.animalslist }}</h3>
         {% for spider in profile.animalslist.spider_set.all %}
         <p>{{ spider.name }} <a href="{% url 'spider-details' spider.id %}">(details)</a></p>
         {% endfor %}
-    </div>
-</div>
+
 
 {% endblock %}

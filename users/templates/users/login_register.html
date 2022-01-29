@@ -4,8 +4,7 @@
 
 {% if page == 'register' %}
 
-<div class="wrapper fadeInDown">
-  <div id="formContent">
+
     <h1 class="mt-2">Register user</h1>
     <!-- Register Form -->
     <form action="{% url 'register' %}" method="POST">
@@ -21,13 +20,11 @@
     <div id="formFooter">
       <p>Already have an account? <a class="underlineHover" href="{% url 'login' %}">Log in!</a></p>
     </div>
-  </div>
-</div>
+
 
 {% else %}
 
-<div class="wrapper fadeInDown">
-  <div id="formContent">
+
     <h1 class="mt-2">Login</h1>
     <!-- Login Form -->
     <form action="{% url 'login' %}" method="POST">
@@ -42,7 +39,6 @@
       <a class="underlineHover" href="#">Forgot Password?</a>
       <p>You do not have an account? <a class="underlineHover" href="{% url 'register' %}">Sign up!</a></p>
     </div>
-  </div>
-</div>
+
 
 {% endif %} {% endblock %}

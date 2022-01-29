@@ -1,6 +1,5 @@
 {% extends 'main.html' %} {% block content %}
-<div class="row">
-  <div class="col-4 offset-4">
+
     <h1>{{spider.name}}</h1>
     <p>Genus: {{spider.genus}}</p>
     <p>Species: {{spider.species}}</p>
@@ -10,7 +9,6 @@
     <p>Added: {{spider.joined}}</p>
     <a href="{% url 'spider-update' spider.id %}" class="btn btn-warning">Edit</a>
     <a href="{% url 'spider-delete' spider.id %}" class="btn btn-danger">delete</a>
-  </div>
-</div>
+
 
 {% endblock %}

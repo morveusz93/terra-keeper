@@ -1,11 +1,9 @@
 {% extends 'main.html' %} {% block content %}
-<div class="row">
-  <div class="col-4 offset-4">
+
     <h1>Profiles</h1>
     {% for profile in profiles %}
     <p>{{ profile.name }} - <a href="{% url 'user-details' profile.id %}">details</a></p>
     {% endfor %}
-  </div>
-</div>
+
 
 {% endblock %}

@@ -18,11 +18,20 @@
           <a class="nav-link" href="{% url 'spiders' %}">Home</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="{% url 'profiles' %}">Profiles</a>
+        </li>
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
           <a class="nav-link" href="{% url 'spider-new' %}">Add spider</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'users' %}">Users</a>
+          <a class="nav-link text-warning" href="{% url 'logout' %}">Logout</a>
         </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Login</a>
+        </li>
+        {% endif %}
       </ul>
     </div>
   </div>

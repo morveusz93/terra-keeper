@@ -1,8 +1,8 @@
-from multiprocessing.spawn import import_main_path
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
 
 
@@ -19,6 +19,8 @@ def profile(request, id):
 
 
 def loginUser(request):
+    page = 'login'
+
     if request.user.is_authenticated:
         return redirect("profiles")
 
@@ -38,11 +40,18 @@ def loginUser(request):
             return redirect('profiles')
         else:
             messages.error(request, 'Userneme and/or password incorrect')
-
-    return render(request, 'users/login_register.html')
+    context = {'page': page}
+    return render(request, 'users/login_register.html', context)
 
 
 def logoutUser(request):
     logout(request)
     messages.error(request, 'User logged out')
     return redirect("profiles")
+
+def registerUser(request):
+    page = 'register'
+    form = UserCreationForm
+    context = {'page': page, 'form': form}
+    return render(request, 'users/login_register.html', context)
+    

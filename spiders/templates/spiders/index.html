@@ -1,8 +1,11 @@
-{% extends 'main.html' %}
-
-{% block content %}
+{% extends 'main.html' %} {% block content %}
+<div class="row">
+  <div class="col-4 offset-4">
     <h1>All spiders</h1>
     {% for spider in spiders %}
     <p>{{ spider.name }} <a href="{% url 'spider-details' spider.id %}">(details)</a></p>
     {% endfor %}
+  </div>
+</div>
+
 {% endblock %}

@@ -11,13 +11,11 @@ def createProfile(sender, instance, created, **kwargs):
             name=user.username,
             email=user.email,
         )
-        print("profile created")
 
 
 def deleteUser(sender, instance, **kwargs):
     user = instance.user
     user.delete()
-    print('deleted user')
 
 
 post_save.connect(createProfile, sender=User)

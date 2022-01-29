@@ -26,11 +26,6 @@ def loginUser(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        try:
-            user = User.objects.get(username=username)
-        except:
-            messages.error(request, 'Userneme and/or password incorrect')
-
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
@@ -57,14 +52,12 @@ def registerUser(request):
             user = form.save(commit=False)
             user.username = user.username.lower()
             user.save()
-            messages.success(request, "User created!")
+            messages.success(request, "User created! Welcome to our family ;)")
             login(request, user)
             return redirect('profiles')
         else:
             messages.error(request, "Something went wrong. Try again")
             
-
-
     context = {'page': page, 'form': form}
     return render(request, 'users/login_register.html', context)
     

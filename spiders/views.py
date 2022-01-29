@@ -1,7 +1,8 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .models import Spider
 from .forms import SpiderForm
-from django.contrib.auth.decorators import login_required
 
 
 def spiders(request):
@@ -12,7 +13,6 @@ def spiders(request):
 
 def details(request, id):
     spider = get_object_or_404(Spider, pk=id)
-    print(spider)
     context = {'spider': spider}
     return render(request, 'spiders/details.html', context)
 
@@ -26,6 +26,7 @@ def createSpider(request):
             spider = form.save(commit=False)            
             spider.owner = request.user.profile
             spider.save()
+        messages.success(request, "New spider successfully added! Good job!")
         return redirect('spiders')
 
     context = {'form': form}
@@ -39,6 +40,7 @@ def updateSpider(request, id):
     if request.method == "POST":
         form = SpiderForm(request.POST, instance=spider)
         if form.is_valid():
+            messages.success(request, "Spider successfully updated ;)")
             form.save()
         return redirect('spider-details', id=id)
 
@@ -51,6 +53,7 @@ def deleteSpider(request, id):
     spider = Spider.objects.get(id=id)
     if request.method == "POST":
         spider.delete()
+        messages.success(request, "Spider successfully deleted from your list.")
         return redirect("spiders")
     context = {'obj': spider}
     return render(request, 'delete.html', context)

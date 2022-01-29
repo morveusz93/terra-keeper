@@ -1,9 +1,10 @@
 {% extends 'main.html' %} {% block content %}
 
     <h1>Profiles</h1>
-    {% for profile in profiles %}
-    <p>{{ profile.name }} - <a href="{% url 'user-details' profile.id %}">details</a></p>
-    {% endfor %}
-
+    <div class="list-group">
+        {% for profile in profiles %}
+            <a href="{% url 'user-details' profile.id %}" type="button" class="list-group-item list-group-item-action">{{ profile.name }}</a>
+        {% endfor %}
+    </div>
 
 {% endblock %}

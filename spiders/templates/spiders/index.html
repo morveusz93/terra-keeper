@@ -1,9 +1,11 @@
 {% extends 'main.html' %} {% block content %}
 
     <h1>All spiders</h1>
-    {% for spider in spiders %}
-    <p>{{ spider.name }} <a href="{% url 'spider-details' spider.id %}">(details)</a></p>
-    {% endfor %}
+    <div class="list-group">
+        {% for spider in spiders %}
+            <a href="{% url 'spider-details' spider.id %}" type="button" class="list-group-item list-group-item-action">{{ spider.name }}</a>
+        {% endfor %}
+    </div>
 
 
 {% endblock %}

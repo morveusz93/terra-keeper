@@ -1,5 +1,4 @@
 {% extends 'main.html' %} 
-{% load bootstrap %} 
 {% block content %} 
 
 {% if page == 'register' %}
@@ -12,7 +11,7 @@
       {% for field in form %}
       {{field}}
       {% endfor %}
-      <input type="submit" class="fadeIn fifth" value="Sign up!" />
+      <input type="submit" value="Sign up!" />
 
     </form>
 

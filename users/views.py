@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from .models import Profile
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, ProfileForm
 
 
 def profile(request):
@@ -56,3 +56,19 @@ def registerUser(request):
     context = {'page': page, 'form': form}
     return render(request, 'users/login_register.html', context)
     
+
+def updateProfile(request):
+    id = request.user.profile.id
+    profile = Profile.objects.get(id=id)
+    form = ProfileForm(instance=profile)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=profile)
+        print(form)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your profile is updated ;)")
+        else:
+            messages.error(request, "Sorry, error occured. Try again, please")
+        return redirect("my-profile")
+    context = {'form': form}
+    return render(request, 'users/profile-form.html', context)

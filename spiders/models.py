@@ -30,7 +30,8 @@ class Spider(models.Model):
     @property
     def all_molts(self) -> list:
         "Returns the spider's molts."
-        return {molt.number: molt.date for molt in self._molt_set.all()}
+        all_molts = {}
+        return [{'number': molt.number, 'date': molt.date} for molt in self.molt_set.all()]
       
         
 
@@ -45,4 +46,4 @@ class Molt(models.Model):
         return f"L{self.number}"
 
     class Meta:
-        ordering = ('spider','-date')
+        ordering = ['spider','-date', '-number']

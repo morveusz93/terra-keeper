@@ -5,7 +5,7 @@
     <p>Genus: {{spider.genus}}</p>
     <p>Species: {{spider.species}}</p>
     <p>Sex: {{spider.get_sex_display}}</p>
-    <p>Molt: {{spider.molt_set.first}}</p>
+    <p>Molt: {{spider.molt_set.first}} <a href="{% url 'spider-molts' spider.id %}">(all molts)</a></p>
     <p>Size: {{spider.size}} cm</p>
     <p>Added: {{spider.joined}}</p>
 </div>

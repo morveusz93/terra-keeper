@@ -1,0 +1,8 @@
+{% extends 'main.html' %}
+{% block content %}
+
+{% for molt in all_molts %}
+    <p>L{{ molt.number }} - {{ molt.date }}</p>
+{% endfor %}
+<a class="underlineHover" href="{% url 'spiders' %}">Back</a>
+{% endblock %}

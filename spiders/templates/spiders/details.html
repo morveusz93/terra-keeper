@@ -5,7 +5,8 @@
     <p>Genus: {{spider.genus}}</p>
     <p>Species: {{spider.species}}</p>
     <p>Sex: {{spider.get_sex_display}}</p>
-    <p>Size: L{{spider.molt}} - {{spider.size}} DC</p>
+    <p>Molt: {{spider.molt_set.first}}</p>
+    <p>Size: {{spider.size}} cm</p>
     <p>Added: {{spider.joined}}</p>
 </div>
     <a href="{% url 'spider-update' spider.id %}" class="btn btn-warning">Edit</a>

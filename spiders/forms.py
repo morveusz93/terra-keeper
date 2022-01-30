@@ -5,7 +5,7 @@ from .models import Spider
 class SpiderForm(ModelForm):
     class Meta:
         model = Spider
-        fields = ['genus', 'species', 'name', 'sex', 'molt', 'size', 'joined' ]
+        fields = ['genus', 'species', 'name', 'sex', 'size', 'joined' ]
         widgets = {
             'joined': DateInput()
         }
@@ -16,7 +16,6 @@ class SpiderForm(ModelForm):
         self.fields['genus'].widget.attrs.update({'placeholder': 'genus'})
         self.fields['species'].widget.attrs.update({'placeholder': 'species'})
         self.fields['name'].widget.attrs.update({'placeholder': 'name'})
-        self.fields['molt'].widget.attrs.update({'placeholder': 'molt'})
         self.fields['size'].widget.attrs.update({'placeholder': 'size'})
         self.fields['joined'].widget.attrs.update({'placeholder': 'joined'})
         self.fields['sex'].empty_label = None

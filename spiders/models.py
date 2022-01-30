@@ -19,6 +19,7 @@ class Spider(models.Model):
     joined = models.DateField(default=date.today, blank=True)
     sex = models.CharField(max_length=1, blank=True,
                            null=True, choices=SEX_CHOICES, default="N")
+    current_molt = models.IntegerField(null=True, blank=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True,
                           primary_key=True, editable=False)
 
@@ -30,6 +31,7 @@ class Spider(models.Model):
     def all_molts(self) -> list:
         "Returns the spider's molts."
         return {molt.number: molt.date for molt in self._molt_set.all()}
+      
         
 
 class Molt(models.Model):

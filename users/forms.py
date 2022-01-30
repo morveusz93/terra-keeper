@@ -15,7 +15,7 @@ class CustomUserCreationForm(UserCreationForm):
             field.help_text = None
 
 
-        self.fields['username'].widget.attrs.update({'class': 'fadeIn first', 'placeholder': 'username'})
-        self.fields['email'].widget.attrs.update({'class': 'fadeIn second', 'placeholder': 'email'})
-        self.fields['password1'].widget.attrs.update({'class': 'fadeIn third', 'placeholder': 'password'})
-        self.fields['password2'].widget.attrs.update({'class': 'fadeIn fourth', 'placeholder': 'confirm password'})
+        self.fields['username'].widget.attrs.update({'placeholder': 'username'})
+        self.fields['email'].widget.attrs.update({'placeholder': 'email'})
+        self.fields['password1'].widget.attrs.update({'placeholder': 'password'})
+        self.fields['password2'].widget.attrs.update({'placeholder': 'confirm password'})

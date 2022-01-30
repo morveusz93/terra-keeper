@@ -94,6 +94,8 @@ input[type="reset"]:active {
 input[type="text"],
 input[type="password"],
 input[type="number"],
+select,
+select option,
 input[type="email"] {
   background-color: #f6f6f6;
   border: none;
@@ -118,6 +120,8 @@ input[type="email"] {
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="number"]:focus,
+select:focus,
+select option:focus,
 input[type="email"]:focus {
   background-color: #fff;
   border-bottom: 2px solid #5fbae9;
@@ -212,39 +216,6 @@ input[type="email"]:placeholder {
   animation-duration: 1s;
 }
 
-.fadeIn.first {
-  -webkit-animation-delay: 0.4s;
-  -moz-animation-delay: 0.4s;
-  animation-delay: 0.4s;
-}
-
-.fadeIn.second {
-  -webkit-animation-delay: 0.6s;
-  -moz-animation-delay: 0.6s;
-  animation-delay: 0.6s;
-}
-
-.fadeIn.third {
-  -webkit-animation-delay: 0.8s;
-  -moz-animation-delay: 0.8s;
-  animation-delay: 0.8s;
-}
-
-.fadeIn.fourth {
-  -webkit-animation-delay: 1s;
-  -moz-animation-delay: 1s;
-  animation-delay: 1s;
-}
-.fadeIn.fifth {
-  -webkit-animation-delay: 1.3s;
-  -moz-animation-delay: 1.3s;
-  animation-delay: 1.3s;
-}
-.fadeIn.sixth {
-  -webkit-animation-delay: 1.6s;
-  -moz-animation-delay: 1.6s;
-  animation-delay: 1.6s;
-}
 
 /* Simple CSS3 Fade-in Animation */
 .underlineHover:after {
@@ -270,8 +241,4 @@ input[type="email"]:placeholder {
 
 *:focus {
   outline: none;
-}
-
-.alert-dismissible {
-  display:inline-block;
 }

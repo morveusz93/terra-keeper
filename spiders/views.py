@@ -25,9 +25,11 @@ def createSpider(request):
         if form.is_valid():
             spider = form.save(commit=False)            
             spider.owner = request.user.profile
+            spider.genus = spider.genus.capitalize()
+            spider.species = spider.species.lower()
             spider.save()
         messages.success(request, "New spider successfully added! Good job!")
-        return redirect('spiders')
+        return redirect('my-profile')
 
     context = {'form': form}
     return render(request, 'spiders/spider-form.html', context)
@@ -54,6 +56,6 @@ def deleteSpider(request, id):
     if request.method == "POST":
         spider.delete()
         messages.success(request, "Spider successfully deleted from your list.")
-        return redirect("spiders")
+        return redirect('my-profile')
     context = {'obj': spider}
     return render(request, 'delete.html', context)

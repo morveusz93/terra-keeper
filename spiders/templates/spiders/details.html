@@ -1,13 +1,14 @@
 {% extends 'main.html' %} {% block content %}
 
-    <h1>{{spider.name}}</h1>
+<h1>{{spider.name}}</h1>
+<div class="contener text-start">
     <p>Genus: {{spider.genus}}</p>
     <p>Species: {{spider.species}}</p>
+    <p>Sex: {{spider.get_sex_display}}</p>
     <p>Size: L{{spider.molt}} - {{spider.size}} DC</p>
-    <p>Owner: <a class="underlineHover" href="{% url 'user-details' spider.owner.id %}">{{ spider.owner }}</a></p>
     <p>Added: {{spider.joined}}</p>
+</div>
     <a href="{% url 'spider-update' spider.id %}" class="btn btn-warning">Edit</a>
     <a href="{% url 'spider-delete' spider.id %}" class="btn btn-danger">Delete</a>
-
 
 {% endblock %}

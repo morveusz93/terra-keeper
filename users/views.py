@@ -1,27 +1,22 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import Profile
 from .forms import CustomUserCreationForm
 
 
-def index(request):
-    profiles = Profile.objects.all()
-    context = {"profiles": profiles}
-    return render(request, 'users/profiles.html', context)
-
-
-def profile(request, id):
+def profile(request):
+    id = request.user.profile.id
     profile = Profile.objects.get(id=id)
-    context = {"profile": profile}
-    return render(request, 'users/details.html', context)
+    spiders = profile.spider_set.all()
+    context = {"profile": profile, 'spiders': spiders}
+    return render(request, 'users/my-profile.html', context)
 
 
 def loginUser(request):
     page = 'login'
     if request.user.is_authenticated:
-        return redirect("profiles")
+        return redirect("my-profile")
 
     if request.method == 'POST':
         username = request.POST['username']
@@ -31,7 +26,7 @@ def loginUser(request):
         if user is not None:
             login(request, user)
             messages.success(request, 'Welcome back! We missed You ;)')
-            return redirect('profiles')
+            return redirect('my-profile')
         else:
             messages.error(request, 'Userneme and/or password incorrect')
     context = {'page': page}
@@ -41,7 +36,7 @@ def loginUser(request):
 def logoutUser(request):
     logout(request)
     messages.success(request, 'User logged out')
-    return redirect("profiles")
+    return redirect("spiders")
 
 def registerUser(request):
     page = 'register'
@@ -54,7 +49,7 @@ def registerUser(request):
             user.save()
             messages.success(request, "User created! Welcome to our family ;)")
             login(request, user)
-            return redirect('profiles')
+            return redirect('my-profile')
         else:
             messages.error(request, "Something went wrong. Try again")
             

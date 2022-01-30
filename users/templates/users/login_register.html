@@ -29,9 +29,9 @@
     <!-- Login Form -->
     <form action="{% url 'login' %}" method="POST">
       {% csrf_token %}
-      <input type="text" id="login" class="fadeIn second" name="username" placeholder="username" />
-      <input type="password" id="password" class="fadeIn third" name="password" placeholder="password" />
-      <input type="submit" class="fadeIn fourth" value="Log In" />
+      <input type="text" id="login"  name="username" placeholder="username" />
+      <input type="password" id="password" name="password" placeholder="password" />
+      <input type="submit" value="Log In" />
     </form>
 
     <!-- Remind Passowrd -->

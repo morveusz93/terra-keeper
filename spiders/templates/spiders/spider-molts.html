@@ -1,8 +1,8 @@
 {% extends 'main.html' %}
 {% block content %}
-
+<h2 class="my-3">{{ spider }}</h2>
 {% for molt in all_molts %}
     <p>L{{ molt.number }} - {{ molt.date }}</p>
 {% endfor %}
-<a class="underlineHover" href="{% url 'spiders' %}">Back</a>
+<a class="underlineHover" href="{% url 'spider-details' spider.id %}">Back</a>
 {% endblock %}

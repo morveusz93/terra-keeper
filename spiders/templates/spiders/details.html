@@ -2,14 +2,40 @@
 
 <h1>{{spider.name}}</h1>
 <div class="contener text-start">
-    <p>Genus: {{spider.genus}}</p>
-    <p>Species: {{spider.species}}</p>
-    <p>Sex: {{spider.get_sex_display}}</p>
-    <p>Molt: {{spider.molt_set.first}} <a href="{% url 'spider-molts' spider.id %}">(all molts)</a></p>
-    <p>Size: {{spider.size}} cm</p>
-    <p>Added: {{spider.joined}}</p>
+  <p>Genus: {{spider.genus}}</p>
+  <p>Species: {{spider.species}}</p>
+  <p>Sex: {{spider.get_sex_display}}</p>
+  <div class="d-flex flex-row">
+    <div class="d-flex justify-content-between w-100">
+      <div>
+        <p>
+          Molt: {{spider.molt_set.first}}
+          <a class="underlineHover" href="{% url 'spider-molts' spider.id %}">(all molts)</a>
+        </p>
+      </div>
+      <div class="d-flex flex-row-reverse">
+        <button class="button-xs" id="addMoltButton">+</button>
+        <p class="fadeInLeft fadeOut" id="moltForm">dodaj wylinkę</p>
+      </div>
+    </div>
+  </div>
+  <p>Size: {{spider.size}} cm</p>
+  <p>Added: {{spider.joined}}</p>
 </div>
-    <a href="{% url 'spider-update' spider.id %}" class="btn btn-warning">Edit</a>
-    <a href="{% url 'spider-delete' spider.id %}" class="btn btn-danger">Delete</a>
+<a href="{% url 'spider-update' spider.id %}" class="btn btn-warning">Edit</a>
+<a href="{% url 'spider-delete' spider.id %}" class="btn btn-danger">Delete</a>
 
+<script>
+  const addMoltButton = document.querySelector("#addMoltButton");
+  const moltForm = document.querySelector("#moltForm");
+  moltForm.style.display = "none";
+  function toggleText() {
+    if (moltForm.style.display === "none") {
+      moltForm.style.display = "block";
+    } else {
+        moltForm.style.display = "none";
+    }
+  }
+  addMoltButton.addEventListener("click", toggleText);
+</script>
 {% endblock %}

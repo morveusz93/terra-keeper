@@ -64,6 +64,5 @@ def deleteSpider(request, id):
 def showMolts(request, id):
     spider = Spider.objects.get(id=id)
     all_molts = spider.all_molts
-    context = {'all_molts': all_molts}
-    print(all_molts)
+    context = {'all_molts': all_molts,'spider': spider}
     return render(request, 'spiders/spider-molts.html', context)

@@ -9,13 +9,16 @@
     <div class="d-flex justify-content-between w-100">
       <div>
         <p>
-          Molt: {{spider.molt_set.first}}
-          <a class="underlineHover" href="{% url 'spider-molts' spider.id %}">(all molts)</a>
+          {% if spider.current_molt %}
+          Molt: L{{ spider.current_molt }}
+          {% else %}
+          Molt: not added
+          {% endif %}
+          <a class="underlineHover" href="{% url 'molts' spider.id %}">(all molts)</a>
         </p>
       </div>
-      <div class="d-flex flex-row-reverse">
-        <button class="button-xs" id="addMoltButton">+</button>
-        <p class="fadeInLeft fadeOut" id="moltForm">dodaj wylinkę</p>
+      <div>
+        <button type="button" class="button-xs" id="addMoltButton" data-bs-toggle="modal" data-bs-target="#exampleModal">+</button>
       </div>
     </div>
   </div>
@@ -25,17 +28,4 @@
 <a href="{% url 'spider-update' spider.id %}" class="btn btn-warning">Edit</a>
 <a href="{% url 'spider-delete' spider.id %}" class="btn btn-danger">Delete</a>
 
-<script>
-  const addMoltButton = document.querySelector("#addMoltButton");
-  const moltForm = document.querySelector("#moltForm");
-  moltForm.style.display = "none";
-  function toggleText() {
-    if (moltForm.style.display === "none") {
-      moltForm.style.display = "block";
-    } else {
-        moltForm.style.display = "none";
-    }
-  }
-  addMoltButton.addEventListener("click", toggleText);
-</script>
 {% endblock %}

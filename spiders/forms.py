@@ -1,5 +1,5 @@
 from django.forms import ModelForm, DateInput, TypedChoiceField
-from .models import Spider
+from .models import Molt, Spider
 
 
 class SpiderForm(ModelForm):
@@ -21,3 +21,19 @@ class SpiderForm(ModelForm):
         self.fields['sex'].empty_label = None
         if self.fields['sex'] and isinstance(self.fields['sex'] , TypedChoiceField):
                 self.fields['sex'].choices = self.fields['sex'].choices[1:]
+
+
+class MoltForm(ModelForm):
+    class Meta:
+        model = Molt
+        fields = ['number', 'date']
+
+        widgets = {
+            'date': DateInput()
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(MoltForm, self).__init__(*args, **kwargs)
+
+        self.fields['number'].widget.attrs.update({'placeholder': 'molt'})
+        self.fields['date'].widget.attrs.update({'placeholder': 'date'})

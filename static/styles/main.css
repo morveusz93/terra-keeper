@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
 body {
   background-color: #d9f2ff;
@@ -13,7 +13,6 @@ a {
   font-weight: 400;
 }
 
-
 /* STRUCTURE */
 
 .wrapper {
@@ -26,7 +25,7 @@ a {
   padding: 20px;
 }
 
-#content {
+.content {
   -webkit-border-radius: 10px 10px 10px 10px;
   border-radius: 10px 10px 10px 10px;
   background: #fff;
@@ -93,12 +92,13 @@ input[type="reset"]:active {
   transform: scale(0.95);
 }
 
-.button-xs{
+.button-xs {
   padding: 5px 10px;
   margin: 0;
 }
 
 input[type="text"],
+input[type="date"],
 input[type="password"],
 input[type="number"],
 select,
@@ -125,6 +125,7 @@ input[type="email"] {
 }
 
 input[type="text"]:focus,
+input[type="date"]:focus,
 input[type="password"]:focus,
 input[type="number"]:focus,
 select:focus,
@@ -133,11 +134,9 @@ input[type="email"]:focus {
   background-color: #fff;
   border-bottom: 2px solid #5fbae9;
 }
-input[type="number"]{
-  width: 40%;
-}
 
 input[type="text"]:placeholder,
+input[type="date"]:placeholder,
 input[type="number"]:placeholder,
 input[type="password"]:placeholder,
 input[type="email"]:placeholder {
@@ -279,7 +278,6 @@ input[type="email"]:placeholder {
   -moz-animation-duration: 1s;
   animation-duration: 1s;
 }
-
 
 /* Simple CSS3 Fade-in Animation */
 .underlineHover:after {

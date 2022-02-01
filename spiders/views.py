@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Spider
-from .forms import SpiderForm
+from .forms import SpiderForm, MoltForm
 
 
 def spiders(request):
@@ -13,7 +13,12 @@ def spiders(request):
 
 def details(request, id):
     spider = get_object_or_404(Spider, pk=id)
-    context = {'spider': spider}
+    try:
+        new_molt_number = spider.current_molt + 1
+    except TypeError:
+        new_molt_number = 1
+    form = MoltForm(initial={'number': new_molt_number})
+    context = {'spider': spider, 'form': form}
     return render(request, 'spiders/details.html', context)
 
 
@@ -61,8 +66,21 @@ def deleteSpider(request, id):
     return render(request, 'delete.html', context)
 
 
-def showMolts(request, id):
+@login_required(login_url="login")
+def molts(request, id):
     spider = Spider.objects.get(id=id)
     all_molts = spider.all_molts
+    if request.method == 'POST':
+        form = MoltForm(request.POST)
+        if form.is_valid():
+            new_molt = form.save(commit=False)
+            new_molt.spider = spider
+            new_molt.save()
+            messages.success(request, "New molt added ;)")
+        else:
+            messages.error(request, "Error durning adding a molt, please try again.")
+        
+        return redirect('spider-details', id=id)
+
     context = {'all_molts': all_molts,'spider': spider}
     return render(request, 'spiders/spider-molts.html', context)

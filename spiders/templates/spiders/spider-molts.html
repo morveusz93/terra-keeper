@@ -1,8 +1,12 @@
 {% extends 'main.html' %}
 {% block content %}
+
 <h2 class="my-3">{{ spider }}</h2>
-{% for molt in all_molts %}
-    <p>L{{ molt.number }} - {{ molt.date }}</p>
-{% endfor %}
+<div class="list-group text-start d-flex flex-column">
+    {% for molt in all_molts %}
+    <li class="list-group-item">L{{ molt.number }} - {{ molt.date }}</li>
+    {% endfor %}
+</div>
+
 <a class="underlineHover" href="{% url 'spider-details' spider.id %}">Back</a>
 {% endblock %}

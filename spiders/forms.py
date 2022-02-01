@@ -7,7 +7,7 @@ class SpiderForm(ModelForm):
         model = Spider
         fields = ['genus', 'species', 'name', 'sex', 'size', 'joined' ]
         widgets = {
-            'joined': DateInput()
+            'joined': DateInput(attrs={'type': 'date'})
         }
 
     def __init__(self, *args, **kwargs):
@@ -16,7 +16,7 @@ class SpiderForm(ModelForm):
         self.fields['genus'].widget.attrs.update({'placeholder': 'genus'})
         self.fields['species'].widget.attrs.update({'placeholder': 'species'})
         self.fields['name'].widget.attrs.update({'placeholder': 'name'})
-        self.fields['size'].widget.attrs.update({'placeholder': 'size'})
+        self.fields['size'].widget.attrs.update({'placeholder': 'size in cm'})
         self.fields['joined'].widget.attrs.update({'placeholder': 'joined'})
         self.fields['sex'].empty_label = None
         if self.fields['sex'] and isinstance(self.fields['sex'] , TypedChoiceField):
@@ -29,8 +29,9 @@ class MoltForm(ModelForm):
         fields = ['number', 'date']
 
         widgets = {
-            'date': DateInput()
+            'date': DateInput(attrs={'type': 'date'})
         }
+
 
     def __init__(self, *args, **kwargs):
         super(MoltForm, self).__init__(*args, **kwargs)

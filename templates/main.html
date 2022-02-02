@@ -26,10 +26,6 @@
         {% endfor %}
       </ul>
     {% endif %}
-    <!-- add modal for add ing molts only if we are at show page  -->
-    {% if request.resolver_match.view_name == 'spider-details' or request.resolver_match.view_name == 'spider-molts' %}
-    {% include 'add-molt-modal.html' %}
-    {% endif %}
     <main class="container">
       <div class="wrapper fadeInDown">
         <div class="content">

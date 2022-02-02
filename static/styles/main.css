@@ -52,6 +52,7 @@ a {
 input[type="button"],
 input[type="submit"],
 button,
+.button,
 input[type="reset"] {
   background-color: #56baed;
   border: none;
@@ -77,6 +78,7 @@ input[type="reset"] {
 input[type="button"]:hover,
 input[type="submit"]:hover,
 button:hover,
+.button:hover,
 input[type="reset"]:hover {
   background-color: #39ace7;
 }
@@ -84,6 +86,7 @@ input[type="reset"]:hover {
 input[type="button"]:active,
 input[type="submit"]:active,
 button:active,
+.button:active,
 input[type="reset"]:active {
   -moz-transform: scale(0.95);
   -webkit-transform: scale(0.95);
@@ -303,4 +306,27 @@ input[type="email"]:placeholder {
 
 *:focus {
   outline: none;
+}
+
+.list-group-item{
+  transition: background .2s;
+}
+
+.list-group-item:hover{
+  background-color: rgb(241, 241, 241);
+}
+
+.molt-item .btn{
+  padding: 1px 10px;
+  border: none;
+  font-size: smaller;
+  margin-left: 5px;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity .3s linear;
+}
+
+.molt-item:hover .btn{
+  visibility: visible;
+  opacity: 1;
 }

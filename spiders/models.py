@@ -31,7 +31,7 @@ class Spider(models.Model):
     def all_molts(self) -> list:
         "Returns the spider's molts."
         all_molts = {}
-        return [{'number': molt.number, 'date': molt.date} for molt in self.molt_set.all()]
+        return [{'number': molt.number, 'date': molt.date, 'id': molt.id} for molt in self.molt_set.all()]
       
         
 

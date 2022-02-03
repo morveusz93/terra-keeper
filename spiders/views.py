@@ -47,7 +47,6 @@ def updateSpider(request, id):
             messages.success(request, "Spider successfully updated ;)")
             form.save()
         return redirect('spider-details', id=id)
-
     context = {'form': form}
     return render(request, 'spiders/spider-form.html', context)
 

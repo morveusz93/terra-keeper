@@ -33,8 +33,13 @@ class Spider(models.Model):
     def all_molts(self) -> list:
         "Returns the spider's molts."
         return [{'number': molt.number, 'date': molt.date, 'id': molt.id} for molt in self.molt_set.all()]
+
+
+    def delete(self, using=None, keep_parents=False):
+        if self.photo.name != 't-default.jpg':
+            self.photo.storage.delete(self.photo.name)
+        super().delete()
       
-        
 
 class Molt(models.Model):
 

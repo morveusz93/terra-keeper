@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from django.forms import ModelForm
+from django import forms
 
 from users.models import Profile
 
@@ -16,14 +16,13 @@ class CustomUserCreationForm(UserCreationForm):
         for name, field in self.fields.items():
             field.help_text = None
 
+        self.fields['username'].widget.attrs.update({'placeholder': 'Username'})
+        self.fields['email'].widget.attrs.update({'placeholder': 'Email'})
+        self.fields['password1'].widget.attrs.update({'placeholder': 'Password'})
+        self.fields['password2'].widget.attrs.update({'placeholder': 'Confirm password'})
 
-        self.fields['username'].widget.attrs.update({'placeholder': 'username'})
-        self.fields['email'].widget.attrs.update({'placeholder': 'email'})
-        self.fields['password1'].widget.attrs.update({'placeholder': 'password'})
-        self.fields['password2'].widget.attrs.update({'placeholder': 'confirm password'})
 
-
-class ProfileForm(ModelForm):
+class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['username', 'email']

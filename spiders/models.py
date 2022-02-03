@@ -18,8 +18,9 @@ class Spider(models.Model):
     size = models.FloatField(blank=True, null=True)
     joined = models.DateField(default=date.today, blank=True)
     sex = models.CharField(max_length=1, blank=True,
-                           null=True, choices=SEX_CHOICES, default="N")
+                           null=True, choices=SEX_CHOICES, default="F")
     current_molt = models.IntegerField(null=True, blank=True)
+    notes = models.TextField(max_length=2000, null=True, blank=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True,
                           primary_key=True, editable=False)
 

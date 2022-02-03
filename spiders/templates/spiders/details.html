@@ -1,7 +1,7 @@
 {% extends 'main.html' %} {% block content %}
 
 <h1>{{spider.name}}</h1>
-<div class="contener text-start">
+<div class="contener text-start mb-5">
   <p>Genus: {{spider.genus}}</p>
   <p>Species: {{spider.species}}</p>
   <p>Sex: {{spider.get_sex_display}}</p>
@@ -24,8 +24,14 @@
   </div>
   <p>Size: {{spider.size}} cm</p>
   <p>Added: {{spider.joined}}</p>
+  <p>Notes:</p>
+  <div class="container">
+    <p>{{spider.notes}}</p>
+  </div>
 </div>
-<a href="{% url 'spider-update' spider.id %}" class="btn btn-warning">Edit</a>
-<a href="{% url 'spider-delete' spider.id %}" class="btn btn-danger">Delete</a>
+<div>
+  <a href="{% url 'spider-update' spider.id %}" class="btn btn-warning mx-2">Edit</a>
+  <a href="{% url 'spider-delete' spider.id %}" class="btn btn-danger mx-2">Delete</a>
+</div>
 
 {% endblock %}

@@ -104,6 +104,7 @@ input[type="text"],
 input[type="date"],
 input[type="password"],
 input[type="number"],
+textarea,
 select,
 select option,
 input[type="email"] {
@@ -132,6 +133,7 @@ input[type="date"]:focus,
 input[type="password"]:focus,
 input[type="number"]:focus,
 select:focus,
+textarea:focus,
 select option:focus,
 input[type="email"]:focus {
   background-color: #fff;
@@ -141,6 +143,7 @@ input[type="email"]:focus {
 input[type="text"]:placeholder,
 input[type="date"]:placeholder,
 input[type="number"]:placeholder,
+textarea:placeholder,
 input[type="password"]:placeholder,
 input[type="email"]:placeholder {
   color: #cccccc;

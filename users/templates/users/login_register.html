@@ -9,7 +9,7 @@
     <form action="{% url 'register' %}" method="POST">
       {% csrf_token %}
       {% for field in form %}
-      {{field}}
+        {{field}}
       {% endfor %}
       <input type="submit" value="Sign up!" />
 
@@ -28,8 +28,8 @@
     <!-- Login Form -->
     <form action="{% url 'login' %}" method="POST">
       {% csrf_token %}
-      <input type="text" id="login"  name="username" placeholder="username" />
-      <input type="password" id="password" name="password" placeholder="password" />
+      <input type="text" id="login"  name="username" placeholder="Username" />
+      <input type="password" id="password" name="password" placeholder="Password" />
       <input type="submit" value="Log In" />
     </form>
 

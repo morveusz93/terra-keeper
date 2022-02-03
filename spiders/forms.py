@@ -1,33 +1,34 @@
-from django.forms import ModelForm, DateInput, TypedChoiceField
+from django import forms
 from .models import Molt, Spider
 
 
-class SpiderForm(ModelForm):
+class SpiderForm(forms.ModelForm):
     class Meta:
         model = Spider
-        fields = ['genus', 'species', 'name', 'sex', 'size', 'joined' ]
+        fields = ['genus', 'species', 'name', 'sex', 'size', 'joined', "notes" ]
         widgets = {
-            'genus': DateInput(attrs={'placeholder': 'genus'}),
-            'species': DateInput(attrs={'placeholder': 'species'}),
-            'name': DateInput(attrs={'placeholder': 'name'}),
-            'size': DateInput(attrs={'placeholder': 'size in cm'}),
-            'joined': DateInput(attrs={'type': 'date', 'placeholder': 'joined'}),
+          'genus': forms.TextInput(attrs={'placeholder': 'Genus'}),
+          'species': forms.TextInput(attrs={'placeholder': 'Species'}),
+          'name': forms.TextInput(attrs={'placeholder': 'Name'}),
+          'size': forms.TextInput(attrs={'placeholder': 'Size in cm'}),
+          'joined': forms.DateInput(attrs={'type': 'date', 'placeholder': 'Date of join'}),
+          'notes': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Notes'}),
         }
 
     def __init__(self, *args, **kwargs):
         super(SpiderForm, self).__init__(*args, **kwargs)
 
         self.fields['sex'].empty_label = None
-        if self.fields['sex'] and isinstance(self.fields['sex'] , TypedChoiceField):
+        if self.fields['sex'] and isinstance(self.fields['sex'] , forms.TypedChoiceField):
                 self.fields['sex'].choices = self.fields['sex'].choices[1:]
 
 
-class MoltForm(ModelForm):
+class MoltForm(forms.ModelForm):
     class Meta:
         model = Molt
         fields = ['number', 'date']
 
         widgets = {
-            'date': DateInput(attrs={'type': 'date', 'placeholder': 'date'}),
-            'molt': DateInput(attrs={'placeholder': 'molt'}),
+            'date': forms.DateInput(attrs={'type': 'date', 'placeholder': 'date'}),
+            'number': forms.TextInput(attrs={'placeholder': 'Molt number'}),
         }

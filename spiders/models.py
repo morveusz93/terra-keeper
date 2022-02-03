@@ -25,6 +25,24 @@ class Spider(models.Model):
     id = models.UUIDField(default=uuid.uuid4, unique=True,
                           primary_key=True, editable=False)
 
+
+    __original_photo = None
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__original_photo = self.photo
+
+    
+    def save(self, force_insert=False, force_update=False, *args, **kwargs):
+        if self.photo != self.__original_photo:
+            if self.__original_photo.name != 't-default.jpg':
+                self.__original_photo.storage.delete(self.__original_photo.name)
+
+        super().save(force_insert, force_update, *args, **kwargs)
+        self.__original_photo = self.photo
+
+            
+
     def __str__(self):
         return f"{self.name}, {self.genus[0].upper()}. {self.species.lower()}"
     
@@ -39,7 +57,9 @@ class Spider(models.Model):
         if self.photo.name != 't-default.jpg':
             self.photo.storage.delete(self.photo.name)
         super().delete()
-      
+
+
+
 
 class Molt(models.Model):
 

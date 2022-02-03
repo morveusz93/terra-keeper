@@ -5,11 +5,12 @@ from .models import Molt, Spider
 class SpiderForm(forms.ModelForm):
     class Meta:
         model = Spider
-        fields = ['genus', 'species', 'name', 'sex', 'size', 'joined', "notes" ]
+        fields = ['genus', 'species', 'name', 'sex', 'size', 'joined', 'photo', 'notes' ]
         widgets = {
           'genus': forms.TextInput(attrs={'placeholder': 'Genus'}),
           'species': forms.TextInput(attrs={'placeholder': 'Species'}),
           'name': forms.TextInput(attrs={'placeholder': 'Name'}),
+          'photo': forms.FileInput(attrs={'placeholder': 'Photo'}),
           'size': forms.TextInput(attrs={'placeholder': 'Size in cm'}),
           'joined': forms.DateInput(attrs={'type': 'date', 'placeholder': 'Date of join'}),
           'notes': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Notes'}),

@@ -23,7 +23,7 @@ def details(request, id):
 def createSpider(request):
     form = SpiderForm()
     if request.method == "POST":
-        form = SpiderForm(request.POST)
+        form = SpiderForm(request.POST, request.FILES)
         if form.is_valid():
             spider = form.save(commit=False)            
             spider.owner = request.user.profile
@@ -42,7 +42,7 @@ def updateSpider(request, id):
     spider = Spider.objects.get(id=id)
     form = SpiderForm(instance=spider)
     if request.method == "POST":
-        form = SpiderForm(request.POST, instance=spider)
+        form = SpiderForm(request.POST, request.FILES, instance=spider)
         if form.is_valid():
             messages.success(request, "Spider successfully updated ;)")
             form.save()

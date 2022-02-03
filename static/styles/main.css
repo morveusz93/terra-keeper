@@ -102,6 +102,7 @@ input[type="reset"]:active {
 
 input[type="text"],
 input[type="date"],
+input[type="file"],
 input[type="password"],
 input[type="number"],
 textarea,
@@ -130,6 +131,7 @@ input[type="email"] {
 
 input[type="text"]:focus,
 input[type="date"]:focus,
+input[type="file"]:focus,
 input[type="password"]:focus,
 input[type="number"]:focus,
 select:focus,
@@ -142,6 +144,7 @@ input[type="email"]:focus {
 
 input[type="text"]:placeholder,
 input[type="date"]:placeholder,
+input[type="file"]:placeholder,
 input[type="number"]:placeholder,
 textarea:placeholder,
 input[type="password"]:placeholder,
@@ -352,4 +355,8 @@ input[type="email"]:placeholder {
 }
 .navbar-toggler{
   box-shadow: none;
+}
+
+.spider-photo{
+  margin: 50px 10px;
 }

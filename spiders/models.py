@@ -21,6 +21,7 @@ class Spider(models.Model):
                            null=True, choices=SEX_CHOICES, default="F")
     current_molt = models.IntegerField(null=True, blank=True)
     notes = models.TextField(max_length=2000, null=True, blank=True)
+    photo = models.ImageField(null=True, blank=True, default='t-default.jpg')
     id = models.UUIDField(default=uuid.uuid4, unique=True,
                           primary_key=True, editable=False)
 

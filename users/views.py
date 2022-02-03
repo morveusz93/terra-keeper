@@ -9,7 +9,6 @@ def homepage(request):
     user = request.user
     if user.is_authenticated:
         profile = user.profile
-        print("profike: ", profile.id)
         return redirect("my-profile")
     else:
         return redirect("login")
@@ -73,7 +72,6 @@ def updateProfile(request):
     form = ProfileForm(instance=profile)
     if request.method == 'POST':
         form = ProfileForm(request.POST, instance=profile)
-        print(form)
         if form.is_valid():
             form.save()
             messages.success(request, "Your profile is updated ;)")

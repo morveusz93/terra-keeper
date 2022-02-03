@@ -7,7 +7,7 @@ body {
 }
 
 a {
-  color: #58b1ff;
+  color: #1e89be;
   display: inline-block;
   text-decoration: none;
   font-weight: 400;
@@ -54,7 +54,7 @@ input[type="submit"],
 button,
 .button,
 input[type="reset"] {
-  background-color: #56baed;
+  background-color: rgb(0, 200, 50);
   border: none;
   color: white;
   padding: 15px 80px;
@@ -80,7 +80,7 @@ input[type="submit"]:hover,
 button:hover,
 .button:hover,
 input[type="reset"]:hover {
-  background-color: #39ace7;
+  background-color: rgb(0, 220, 50);
 }
 
 input[type="button"]:active,
@@ -292,7 +292,7 @@ input[type="email"]:placeholder {
   bottom: -10px;
   width: 0;
   height: 2px;
-  background-color: #56baed;
+  background-color: #1e89be;
   content: "";
   transition: width 0.2s;
 }
@@ -332,4 +332,21 @@ input[type="email"]:placeholder {
 .molt-item:hover .btn{
   visibility: visible;
   opacity: 1;
+}
+
+.spider-notes {
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.bg-green{
+  background-color: rgb(5, 95, 35);
+}
+
+.bg-light-green{
+  background-color: rgb(0, 200, 50);
+}
+
+.list-group-item.bg-light-green:hover{
+  background-color: rgb(0, 220, 50);
 }

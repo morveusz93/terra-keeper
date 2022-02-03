@@ -24,10 +24,12 @@
   </div>
   <p>Size: {{spider.size}} cm</p>
   <p>Added: {{spider.joined}}</p>
+  {% if spider.notes %}
   <p>Notes:</p>
   <div class="container">
-    <p>{{spider.notes}}</p>
+    <p class="spider-notes">{{spider.notes}}</p>
   </div>
+  {% endif %}
 </div>
 <div>
   <a href="{% url 'spider-update' spider.id %}" class="btn btn-warning mx-2">Edit</a>

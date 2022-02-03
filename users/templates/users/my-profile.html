@@ -4,7 +4,7 @@
     <h1>{{ profile.username }}</h1>    
     <p><a class="underlineHover" href="{% url 'profile-update' %}">Edit your profile</a></p>
     <h3 class="mb-5">{{ profile.animalslist }}</h3>
-    <a href="{% url 'spider-new' %}" type="button" class="list-group-item list-group-item-action bg-info"> + Add new spider</a>
+    <a href="{% url 'spider-new' %}" type="button" class="list-group-item list-group-item-action bg-light-green"> + Add new spider</a>
     <div class="list-group text-start">
         {% for spider in spiders %}
         <div class="d-flex justify-content-between">

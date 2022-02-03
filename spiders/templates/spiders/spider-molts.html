@@ -3,7 +3,7 @@
 
 <h2 class="my-3">{{ spider }}</h2>
 <div class="list-group text-start d-flex flex-column">
-    <a type="button" class="list-group-item list-group-item-action bg-info" href="{% url 'molt-create' spider.id %}" > + Add new molt</a>
+    <a type="button" class="list-group-item bg-light-green" href="{% url 'molt-create' spider.id %}" > + Add new molt</a>
     {% for molt in all_molts %}
     <li class="list-group-item molt-item d-flex flex-row justify-content-between">
         <div>

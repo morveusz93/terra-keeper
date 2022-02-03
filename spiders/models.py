@@ -31,12 +31,12 @@ class Spider(models.Model):
     @property
     def all_molts(self) -> list:
         "Returns the spider's molts."
-        all_molts = {}
         return [{'number': molt.number, 'date': molt.date, 'id': molt.id} for molt in self.molt_set.all()]
       
         
 
 class Molt(models.Model):
+
     id = models.UUIDField(default=uuid.uuid4, unique=True,
                           primary_key=True, editable=False)
     spider = models.ForeignKey(Spider, on_delete=models.CASCADE, blank=True, null=True)
@@ -47,4 +47,4 @@ class Molt(models.Model):
         return f"{self.spider.name} - L{self.number}"
 
     class Meta:
-        ordering = ['spider','-date', '-number']
+        ordering = ['spider', '-number', '-date']

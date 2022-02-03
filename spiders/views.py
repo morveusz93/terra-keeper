@@ -3,7 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Spider, Molt
 from .forms import SpiderForm, MoltForm
+from .custom_validators import molt_validator
 
+
+# ----------------------------SPIDERS----------------------------
 
 def details(request, id):
     spider = get_object_or_404(Spider, pk=id)
@@ -59,29 +62,13 @@ def deleteSpider(request, id):
     context = {'obj': spider}
     return render(request, 'delete.html', context)
 
+# ----------------------------MOLTS----------------------------
 
 @login_required(login_url="login")
 def molts(request, id):
     spider = Spider.objects.get(id=id)
-    all_molts = spider.all_molts
-    try:
-        new_molt_number = spider.current_molt + 1
-    except TypeError:
-        new_molt_number = 1
-    form = MoltForm(initial={'number': new_molt_number })
-    if request.method == 'POST':
-        form = MoltForm(request.POST)
-        if form.is_valid():
-            new_molt = form.save(commit=False)
-            new_molt.spider = spider
-            new_molt.save()
-            messages.success(request, "New molt added ;)")
-        else:
-            messages.error(request, "Error durning adding a molt, please try again.")
-        
-        return redirect('spider-details', id=id)
-
-    context = {'all_molts': all_molts, 'spider': spider, 'form': form}
+    all_molts = spider.all_molts        
+    context = {'all_molts': all_molts, 'spider': spider}
     return render(request, 'spiders/spider-molts.html', context)
 
 
@@ -98,12 +85,17 @@ def createMolt(request, id):
         if form.is_valid():
             new_molt = form.save(commit=False)
             new_molt.spider = spider
-            new_molt.save()
-            messages.success(request, "New molt added ;)")
+            molt_validation_error = molt_validator(new_molt)
+            if molt_validation_error is None:
+                new_molt.save()
+                messages.success(request, "New molt added ;)")
+            else:
+                messages.error(request, molt_validation_error)
+                return redirect('molts', id=id)
         else:
             messages.error(request, "Error durning adding a molt, please try again.")
         
-        return redirect('spider-details', id=id)
+        return redirect('molts', id=id)
 
     context = {'spider': spider, 'form': form}
     return render(request, 'spiders/molt-form.html', context)
@@ -117,9 +109,16 @@ def updateMolt(request, molt_id):
     if request.method == "POST":
         form = MoltForm(request.POST, instance=molt)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Molt successfully updated ;)")
-        return redirect('spider-details', id=spider.id)
+            updated_molt = form.save(commit=False)
+            molt_validation_error = molt_validator(updated_molt, update=True)
+            if molt_validation_error is None:
+                updated_molt.save()
+                messages.success(request, "Molt updated!")
+            else:
+                messages.error(request, molt_validation_error)
+                return redirect('molts', id=spider.id)
+
+        return redirect('molts', id=spider.id)
 
     context = {'form': form, 'spider': spider}
     return render(request, 'spiders/molt-form.html', context)

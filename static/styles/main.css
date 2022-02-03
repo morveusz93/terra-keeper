@@ -350,3 +350,6 @@ input[type="email"]:placeholder {
 .list-group-item.bg-light-green:hover{
   background-color: rgb(0, 220, 50);
 }
+.navbar-toggler{
+  box-shadow: none;
+}

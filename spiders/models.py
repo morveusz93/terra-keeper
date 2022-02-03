@@ -43,7 +43,7 @@ class Molt(models.Model):
     number = models.IntegerField()
 
     def __str__(self):
-        return f"L{self.number}"
+        return f"{self.spider.name} - L{self.number}"
 
     class Meta:
         ordering = ['spider','-date', '-number']

@@ -5,6 +5,16 @@ from .models import Profile
 from .forms import CustomUserCreationForm, ProfileForm
 
 
+def homepage(request):
+    user = request.user
+    if user.is_authenticated:
+        profile = user.profile
+        print("profike: ", profile.id)
+        return redirect("my-profile")
+    else:
+        return redirect("login")
+
+
 def profile(request):
     id = request.user.profile.id
     profile = Profile.objects.get(id=id)
@@ -36,7 +46,7 @@ def loginUser(request):
 def logoutUser(request):
     logout(request)
     messages.success(request, 'User logged out')
-    return redirect("spiders")
+    return redirect("home")
 
 def registerUser(request):
     page = 'register'

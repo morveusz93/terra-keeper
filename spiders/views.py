@@ -5,12 +5,6 @@ from .models import Spider, Molt
 from .forms import SpiderForm, MoltForm
 
 
-def spiders(request):
-    spiders = Spider.objects.all()
-    context = {'spiders': spiders}
-    return render(request, 'spiders/index.html', context)
-
-
 def details(request, id):
     spider = get_object_or_404(Spider, pk=id)
     try:

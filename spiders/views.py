@@ -27,7 +27,6 @@ class SpiderListView(ListView):
         context['profile'] = self.request.user.profile
         return context
 
-
     def get_queryset(self):
         return self.request.user.profile.spider_set.all()
 
@@ -56,17 +55,13 @@ class SpiderUpdateView(UpdateView):
     model = Spider
     form_class = SpiderForm
 
-    def setup(self, request, *args, **kwargs):
-        super(SpiderUpdateView, self).setup(request, *args, **kwargs)
-        self.spider = Spider.objects.get(pk=kwargs['pk'])
-
     def form_valid(self, form):
         form.save()
         messages.success(self.request, "Spider successfully updated! Good job!")
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy('spider-details', kwargs={'pk': self.spider.id})
+        return reverse_lazy('spider-details', kwargs={'pk': self.object.id})
 
 
 class SpiderDeleteView(DeleteView):

@@ -1,11 +1,13 @@
 from datetime import date
 
 
-def molt_validator(molt, update=False):
+def molt_validator(molt, update_molt=False):
     error = None
     spider = molt.spider
     all_molts = spider.molt_set.all()
-    if update == False and molt.number in [m.number for m in all_molts]:
+    if update_molt == False and molt.number in [m.number for m in all_molts]:
+        error = "This molt is alreday added. Check the molt number."
+    elif molt.number != update_molt and molt.number in [m.number for m in all_molts]:
         error = "This molt is alreday added. Check the molt number."
     if molt.date > date.today():
         error = "You can't add molt with date in future."

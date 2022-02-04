@@ -1,136 +1,175 @@
-from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 from django.contrib import messages
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView, RedirectView
+
+from spiders.custom_validators import molt_validator
+
 from .models import Spider, Molt
-from .forms import SpiderForm, MoltForm
-from .custom_validators import molt_validator
+from .forms import MoltForm, SpiderForm
 
 
-# ----------------------------SPIDERS----------------------------
-
-def details(request, id):
-    spider = get_object_or_404(Spider, pk=id)
-    try:
-        new_molt_number = spider.current_molt + 1
-    except TypeError:
-        new_molt_number = 1
-    form = MoltForm(initial={'number': new_molt_number})
-    context = {'spider': spider, 'form': form}
-    return render(request, 'spiders/details.html', context)
-
-
-@login_required(login_url="login")
-def createSpider(request):
-    form = SpiderForm()
-    if request.method == "POST":
-        form = SpiderForm(request.POST, request.FILES)
-        if form.is_valid():
-            spider = form.save(commit=False)            
-            spider.owner = request.user.profile
-            spider.genus = spider.genus.capitalize()
-            spider.species = spider.species.lower()
-            spider.save()
-        messages.success(request, "New spider successfully added! Good job!")
-        return redirect('my-profile')
-
-    context = {'form': form}
-    return render(request, 'spiders/spider-form.html', context)
-
-
-@login_required(login_url="login")
-def updateSpider(request, id):
-    spider = Spider.objects.get(id=id)
-    form = SpiderForm(instance=spider)
-    if request.method == "POST":
-        form = SpiderForm(request.POST, request.FILES, instance=spider)
-        if form.is_valid():
-            messages.success(request, "Spider successfully updated ;)")
-            form.save()
-        return redirect('spider-details', id=id)
-    context = {'form': form}
-    return render(request, 'spiders/spider-form.html', context)
-
-
-@login_required(login_url="login")
-def deleteSpider(request, id):
-    spider = Spider.objects.get(id=id)
-    if request.method == "POST":
-        spider.delete()
-        messages.success(request, "Spider successfully deleted from your list.")
-        return redirect('my-profile')
-    context = {'obj': spider}
-    return render(request, 'delete.html', context)
-
-# ----------------------------MOLTS----------------------------
-
-@login_required(login_url="login")
-def molts(request, id):
-    spider = Spider.objects.get(id=id)
-    all_molts = spider.all_molts        
-    context = {'all_molts': all_molts, 'spider': spider}
-    return render(request, 'spiders/spider-molts.html', context)
-
-
-@login_required(login_url="login")
-def createMolt(request, id):
-    spider = Spider.objects.get(id=id)
-    try:
-        new_molt_number = spider.current_molt + 1
-    except TypeError:
-        new_molt_number = 1
-    form = MoltForm(initial={'number': new_molt_number })
-    if request.method == 'POST':
-        form = MoltForm(request.POST)
-        if form.is_valid():
-            new_molt = form.save(commit=False)
-            new_molt.spider = spider
-            molt_validation_error = molt_validator(new_molt)
-            if molt_validation_error is None:
-                new_molt.save()
-                messages.success(request, "New molt added ;)")
-            else:
-                messages.error(request, molt_validation_error)
-                return redirect('molts', id=id)
+class HomePageView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            self.pattern_name = "my-profile"
         else:
-            messages.error(request, "Error durning adding a molt, please try again.")
-        
-        return redirect('molts', id=id)
-
-    context = {'spider': spider, 'form': form}
-    return render(request, 'spiders/molt-form.html', context)
+            self.pattern_name = "login"
+        return super().get_redirect_url(*args, **kwargs)
 
 
-@login_required(login_url="login")
-def updateMolt(request, molt_id):
-    molt = Molt.objects.get(id=molt_id)
-    spider = molt.spider
-    form = MoltForm(instance=molt)
-    if request.method == "POST":
-        form = MoltForm(request.POST, instance=molt)
-        if form.is_valid():
-            updated_molt = form.save(commit=False)
-            molt_validation_error = molt_validator(updated_molt, update=True)
-            if molt_validation_error is None:
-                updated_molt.save()
-                messages.success(request, "Molt updated!")
-            else:
-                messages.error(request, molt_validation_error)
-                return redirect('molts', id=spider.id)
+class SpiderListView(ListView):
+    model = Spider
+    context_object_name = 'spider_list'
 
-        return redirect('molts', id=spider.id)
-
-    context = {'form': form, 'spider': spider}
-    return render(request, 'spiders/molt-form.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['profile'] = self.request.user.profile
+        return context
 
 
-@login_required(login_url="login")
-def deleteMolt(request, molt_id):
-    molt = Molt.objects.get(id=molt_id)
-    spider = molt.spider
-    if request.method == "POST":
-        molt.delete()
+    def get_queryset(self):
+        return self.request.user.profile.spider_set.all()
+
+
+class SpiderDetailView(DetailView):
+    model = Spider
+    context_object_name = 'spider'
+
+
+class SpiderCreateView(CreateView):
+    model = Spider
+    form_class = SpiderForm
+    success_url = reverse_lazy('my-profile')
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.owner = self.request.user.profile
+        self.object.genus = self.object.genus.capitalize()
+        self.object.species = self.object.species.lower()
+        self.object.save()
+        messages.success(self.request, "New spider successfully added! Good job!")
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class SpiderUpdateView(UpdateView):
+    model = Spider
+    form_class = SpiderForm
+
+    def setup(self, request, *args, **kwargs):
+        super(SpiderUpdateView, self).setup(request, *args, **kwargs)
+        self.spider = Spider.objects.get(pk=kwargs['pk'])
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Spider successfully updated! Good job!")
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse_lazy('spider-details', kwargs={'pk': self.spider.id})
+
+
+class SpiderDeleteView(DeleteView):
+    model = Spider
+    template_name = 'delete.html'
+    context_object_name = 'obj'
+    success_url = reverse_lazy('my-profile')
+
+    def delete(self, request, *args, **kwargs):
         messages.success(request, "Molt successfully deleted.")
-        return redirect('molts', spider.id)
-    context = {'obj': molt}
-    return render(request, 'delete.html', context)
+        return super().delete(request, *args, **kwargs)
 
+# -----------------------------------MOLTS-----------------------------------
+
+class MoltListView(ListView):
+    model = Molt
+    context_object_name = 'molt_list'
+
+    def setup(self, request, *args, **kwargs):
+        super(MoltListView, self).setup(request, *args, **kwargs)
+        self.spider = Spider.objects.get(pk=kwargs['pk'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['spider'] = self.spider
+        return context
+
+    def get_queryset(self):
+        return self.spider.molt_set.all()
+
+
+class MoltCreateView(CreateView):
+    model = Molt
+    form_class = MoltForm
+    
+    def setup(self, request, *args, **kwargs):
+        super(MoltCreateView, self).setup(request, *args, **kwargs)
+        self.spider = Spider.objects.get(pk=kwargs['pk'])
+        self.new_molt_number = self.spider.get_next_molt_number()
+
+    def get_success_url(self):
+        return reverse_lazy('spider-details', kwargs={'pk': self.spider.id})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['spider'] = self.spider
+        return context
+
+    def get_initial(self):
+        initial = super(MoltCreateView, self).get_initial()
+        initial = initial.copy()
+        initial['number'] = self.new_molt_number
+        return initial
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.spider = self.spider
+        molt_validation_error = molt_validator(self.object)
+        if molt_validation_error is None:
+            self.object.save()
+            messages.success(self.request, "New molt added ;)")
+        else:
+            messages.error(self.request, molt_validation_error)
+
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class MoltUpdateView(UpdateView):
+    model = Molt
+    form_class = MoltForm
+
+    def setup(self, request, *args, **kwargs):
+        super(MoltUpdateView, self).setup(request, *args, **kwargs)
+        self.molt = Molt.objects.get(pk=kwargs['pk'])
+        self.update_molt_number = self.molt.number
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        molt_validation_error = molt_validator(self.object, update_molt=self.update_molt_number)
+        if molt_validation_error is None:
+            self.object.save()
+            messages.success(self.request, "New molt added ;)")
+        else:
+            messages.error(self.request, molt_validation_error)
+
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse_lazy('spider-molts', kwargs={'pk': self.molt.spider.id})
+
+
+class MoltDeleteView(DeleteView):
+    model = Molt
+    template_name = 'delete.html'
+    context_object_name = 'obj'
+
+    def setup(self, request, *args, **kwargs):
+        super(MoltDeleteView, self).setup(request, *args, **kwargs)
+        self.molt = Molt.objects.get(pk=kwargs['pk'])
+
+    def get_success_url(self):
+        return reverse_lazy('spider-molts', kwargs={'pk': self.molt.spider.id})
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, "Molt successfully deleted.")
+        return super().delete(request, *args, **kwargs)

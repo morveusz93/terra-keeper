@@ -48,10 +48,17 @@ class Spider(models.Model):
     
 
     @property
-    def all_molts(self) -> list:
+    def get_all_molts(self) -> list:
         "Returns the spider's molts."
         return [{'number': molt.number, 'date': molt.date, 'id': molt.id} for molt in self.molt_set.all()]
 
+
+    def get_next_molt_number(self):
+        try:
+            new_molt_number = self.current_molt + 1
+        except TypeError:
+            new_molt_number = 1
+        return new_molt_number
 
     def delete(self, using=None, keep_parents=False):
         if self.photo.name != 't-default.jpg':

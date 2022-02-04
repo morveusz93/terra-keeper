@@ -8,9 +8,9 @@ from terrakeeper.settings import MEDIA_ROOT
 
 
 urlpatterns = [
-    path('spiders/', include('spiders.urls')),
+    path('', include('spiders.urls')),
     path('admin/', admin.site.urls),
-    path('', include('users.urls')),
+    path('users/', include('users.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=MEDIA_ROOT)

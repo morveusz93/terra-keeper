@@ -31,5 +31,5 @@ class MoltForm(forms.ModelForm):
 
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date', 'placeholder': 'date'}),
-            'number': forms.TextInput(attrs={'placeholder': 'Molt number'}),
+            'number': forms.NumberInput(attrs={'placeholder': 'Molt number'}),
         }

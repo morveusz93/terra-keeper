@@ -143,3 +143,5 @@ MESSAGE_TAGS = {
     messages.ERROR: 'alert alert-danger',
     messages.WARNING: 'alert alert-warning',
 }
+
+LOGIN_URL = '/users/login'

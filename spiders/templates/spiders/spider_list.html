@@ -1,0 +1,19 @@
+{% extends 'main.html' %}
+{% block content %}
+
+    <h1>{{ profile.username }}</h1>    
+    <p><a class="underlineHover" href="#">Edit your profile</a></p>
+    <h3 class="mb-5">{{ profile.name }}</h3>
+    <a href="{% url 'spider-create' %}" type="button" class="list-group-item list-group-item-action bg-light-green"> + Add new spider</a>
+    <div class="list-group text-start">
+        {% for spider in spider_list %}
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'spider-details' spider.id %}" type="button" class="list-group-item list-group-item-action">
+                {{ spider }}
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

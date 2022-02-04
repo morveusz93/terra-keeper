@@ -80,27 +80,19 @@ class MoltListView(ListView):
     model = Molt
     context_object_name = 'molt_list'
 
-    def setup(self, request, *args, **kwargs):
-        super(MoltListView, self).setup(request, *args, **kwargs)
-        self.spider = Spider.objects.get(pk=kwargs['pk'])
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['spider'] = self.spider
         return context
 
     def get_queryset(self):
+        self.spider = Spider.objects.get(pk=self.kwargs['pk'])
         return self.spider.molt_set.all()
 
 
 class MoltCreateView(CreateView):
     model = Molt
     form_class = MoltForm
-    
-    def setup(self, request, *args, **kwargs):
-        super(MoltCreateView, self).setup(request, *args, **kwargs)
-        self.spider = Spider.objects.get(pk=kwargs['pk'])
-        self.new_molt_number = self.spider.get_next_molt_number()
 
     def get_success_url(self):
         return reverse_lazy('spider-details', kwargs={'pk': self.spider.id})
@@ -113,6 +105,8 @@ class MoltCreateView(CreateView):
     def get_initial(self):
         initial = super(MoltCreateView, self).get_initial()
         initial = initial.copy()
+        self.spider = Spider.objects.get(pk=self.kwargs['pk'])
+        self.new_molt_number = self.spider.get_next_molt_number()
         initial['number'] = self.new_molt_number
         return initial
 
@@ -143,10 +137,9 @@ class MoltUpdateView(UpdateView):
         molt_validation_error = molt_validator(self.object, update_molt=self.update_molt_number)
         if molt_validation_error is None:
             self.object.save()
-            messages.success(self.request, "New molt added ;)")
+            messages.success(self.request, "Molt updated! ;)")
         else:
             messages.error(self.request, molt_validation_error)
-
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
@@ -158,12 +151,8 @@ class MoltDeleteView(DeleteView):
     template_name = 'delete.html'
     context_object_name = 'obj'
 
-    def setup(self, request, *args, **kwargs):
-        super(MoltDeleteView, self).setup(request, *args, **kwargs)
-        self.molt = Molt.objects.get(pk=kwargs['pk'])
-
     def get_success_url(self):
-        return reverse_lazy('spider-molts', kwargs={'pk': self.molt.spider.id})
+        return reverse_lazy('spider-molts', kwargs={'pk': self.object.spider.id})
 
     def delete(self, request, *args, **kwargs):
         messages.success(request, "Molt successfully deleted.")

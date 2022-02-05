@@ -2,7 +2,7 @@
 {% block content %}
 
     <h1>{{ profile.username }}</h1>    
-    <p><a class="underlineHover" href="#">Edit your profile</a></p>
+    <p><a class="underlineHover" href="{% url 'profile-update' profile.id %}">Edit your profile</a></p>
     <h3 class="mb-5">{{ profile.name }}</h3>
     <a href="{% url 'spider-create' %}" type="button" class="list-group-item list-group-item-action bg-light-green"> + Add new spider</a>
     <div class="list-group text-start">

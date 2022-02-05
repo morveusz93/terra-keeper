@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.contrib import messages
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView, RedirectView
 
 from spiders.custom_validators import molt_validator
@@ -61,7 +61,7 @@ class SpiderUpdateView(UpdateView):
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy('spider-details', kwargs={'pk': self.object.id})
+        return reverse('spider-details', kwargs={'pk': self.object.id})
 
 
 class SpiderDeleteView(DeleteView):
@@ -95,7 +95,7 @@ class MoltCreateView(CreateView):
     form_class = MoltForm
 
     def get_success_url(self):
-        return reverse_lazy('spider-details', kwargs={'pk': self.spider.id})
+        return reverse('spider-details', kwargs={'pk': self.spider.id})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -143,7 +143,7 @@ class MoltUpdateView(UpdateView):
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy('spider-molts', kwargs={'pk': self.molt.spider.id})
+        return reverse('spider-molts', kwargs={'pk': self.molt.spider.id})
 
 
 class MoltDeleteView(DeleteView):
@@ -152,7 +152,7 @@ class MoltDeleteView(DeleteView):
     context_object_name = 'obj'
 
     def get_success_url(self):
-        return reverse_lazy('spider-molts', kwargs={'pk': self.object.spider.id})
+        return reverse('spider-molts', kwargs={'pk': self.object.spider.id})
 
     def delete(self, request, *args, **kwargs):
         messages.success(request, "Molt successfully deleted.")

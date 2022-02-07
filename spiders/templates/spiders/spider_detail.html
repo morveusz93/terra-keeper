@@ -1,7 +1,7 @@
 {% extends 'main.html' %} {% block content %}
 
 <h1>{{spider.name}}</h1>
-<div class="container text-start mb-5 d-flex flex-column">
+<div class="text-start mb-5 d-flex flex-column">
   <img class="spider-photo" src="{{ spider.get_image }}" alt="{{spider.name}}'s photo">
   <p>Genus: {{spider.genus}}</p>
   <p>Species: {{spider.species}}</p>

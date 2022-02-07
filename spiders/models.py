@@ -35,7 +35,7 @@ class Spider(models.Model):
 
     def save(self, force_insert=False, force_update=False, *args, **kwargs):
         if self.photo != self.__original_photo:
-            if self.__original_photo.name != 't-default.jpg':
+            if self.__original_photo.name and self.__original_photo.name != 't-default.jpg':
                 self.__original_photo.storage.delete(self.__original_photo.name)
 
         super().save(force_insert, force_update, *args, **kwargs)

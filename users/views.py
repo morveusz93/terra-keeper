@@ -1,7 +1,8 @@
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import (
+    LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView)
 from django.views.generic import CreateView, UpdateView
 
 from .models import Profile
@@ -66,3 +67,13 @@ class ProfileUpdateView(UpdateView):
     def form_invalid(self, form):
         messages.error(self.request, "Something went wrong :/ Try again.")
         return super(ProfileUpdateView, self).form_invalid(form)
+
+
+class CustomPasswordChangeView(PasswordChangeView):
+    template_name = 'users/change_password.html'	
+    success_url = reverse_lazy('my-profile')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Password changed')
+        return super().form_valid(form)
+        

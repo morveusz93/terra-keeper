@@ -2,6 +2,7 @@ from datetime import date
 from django.db import models
 from users.models import Profile
 import uuid
+import os
 
 
 class Spider(models.Model):
@@ -21,7 +22,7 @@ class Spider(models.Model):
                            null=True, choices=SEX_CHOICES, default="F")
     current_molt = models.IntegerField(null=True, blank=True)
     notes = models.TextField(max_length=2000, null=True, blank=True)
-    photo = models.ImageField(null=True, blank=True, default='t-default.jpg')
+    photo = models.ImageField(default='t-default.jpg')
     id = models.UUIDField(default=uuid.uuid4, unique=True,
                           primary_key=True, editable=False)
 
@@ -32,7 +33,6 @@ class Spider(models.Model):
         super().__init__(*args, **kwargs)
         self.__original_photo = self.photo
 
-    
     def save(self, force_insert=False, force_update=False, *args, **kwargs):
         if self.photo != self.__original_photo:
             if self.__original_photo.name != 't-default.jpg':
@@ -41,17 +41,19 @@ class Spider(models.Model):
         super().save(force_insert, force_update, *args, **kwargs)
         self.__original_photo = self.photo
 
-            
-
     def __str__(self):
         return f"{self.name}, {self.genus[0].upper()}. {self.species.lower()}"
     
-
     @property
-    def get_all_molts(self) -> list:
+    def get_all_molts(self):
         "Returns the spider's molts."
         return [{'number': molt.number, 'date': molt.date, 'id': molt.id} for molt in self.molt_set.all()]
 
+    @property
+    def get_image(self):
+        if not self.photo:
+            return "/images/t-default.jpg"
+        return self.photo.url
 
     def get_next_molt_number(self):
         try:
@@ -61,11 +63,9 @@ class Spider(models.Model):
         return new_molt_number
 
     def delete(self, using=None, keep_parents=False):
-        if self.photo.name != 't-default.jpg':
+        if self.photo and self.photo.name != 't-default.jpg':
             self.photo.storage.delete(self.photo.name)
         super().delete()
-
-
 
 
 class Molt(models.Model):

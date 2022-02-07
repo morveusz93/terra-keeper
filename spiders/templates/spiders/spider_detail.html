@@ -2,7 +2,7 @@
 
 <h1>{{spider.name}}</h1>
 <div class="container text-start mb-5 d-flex flex-column">
-  <img class="spider-photo" src="{{ spider.photo.url }}" alt="{{spider.name}}'s photo">
+  <img class="spider-photo" src="{{ spider.get_image }}" alt="{{spider.name}}'s photo">
   <p>Genus: {{spider.genus}}</p>
   <p>Species: {{spider.species}}</p>
   <p>Sex: {{spider.get_sex_display}}</p>
@@ -33,7 +33,8 @@
   {% endif %}
 </div>
 <div>
-  <a href="{% url 'spider-update' spider.id %}" class="btn btn-warning mx-2">Edit</a>
+  <a href="{% url 'spider-update' spider.id %}" class="btn btn-info mx-2">Edit</a>
+  <a href="{% url 'spider-delete-photo' spider.id %}" class="btn btn-warning mx-2">Delete photo</a>
   <a href="{% url 'spider-delete' spider.id %}" class="btn btn-danger mx-2">Delete</a>
 </div>
 

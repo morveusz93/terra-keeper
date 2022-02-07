@@ -1,7 +1,10 @@
+import pstats
+from re import template
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
-from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView, RedirectView
+from django.views.generic import (DetailView, ListView, CreateView,
+UpdateView, DeleteView, RedirectView, TemplateView, FormView)
 
 from spiders.custom_validators import molt_validator
 
@@ -157,3 +160,21 @@ class MoltDeleteView(DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(request, "Molt successfully deleted.")
         return super().delete(request, *args, **kwargs)
+
+
+class PhotoDeleteView(TemplateView):
+    template_name = 'spiders/delete_photo.html'
+
+    def setup(self, request, *args, **kwargs):
+        super(PhotoDeleteView, self).setup(request, *args, **kwargs)
+        self.spider = Spider.objects.get(pk=self.kwargs['pk'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['spider'] = self.spider
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.spider.photo = None
+        self.spider.save()
+        return HttpResponseRedirect(reverse('spider-details', kwargs={'pk': self.spider.id}))

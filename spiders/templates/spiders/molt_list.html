@@ -3,16 +3,20 @@
 
 <h2 class="my-3">{{ spider }}</h2>
 <div class="list-group text-start d-flex flex-column mb-5">
+    {% if spider.owner == request.user.profile %}
     <a type="button" class="list-group-item bg-light-green" href="{% url 'molt-create' spider.id %}" > + Add new molt</a>
+    {% endif %}
     {% for molt in molt_list %}
     <li class="list-group-item molt-item d-flex flex-row justify-content-between">
         <div>
             L{{ molt.number }} - {{ molt.date }} 
         </div>
+      {% if spider.owner == request.user.profile %}
         <div class="d-flex flex-row">
             <a href="{% url 'molt-edit' molt.id %}" class="btn btn-warning">⚙️</a>
             <a href="{% url 'molt-delete' molt.id %}" class="btn btn-danger">❌</a>
         </div>
+        {% endif %}
     </li>
     {% endfor %}
 </div>

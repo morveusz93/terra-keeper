@@ -18,9 +18,11 @@
           <a class="underlineHover" href="{% url 'spider-molts' spider.id %}">(all molts)</a>
         </p>
       </div>
+      {% if spider.owner == request.user.profile %}
       <div>
         <a class="button button-xs" href="{% url 'molt-create' spider.id %}" >+</a>
       </div>
+      {% endif %}
     </div>
   </div>
   <p>Size: {{spider.size}} cm</p>
@@ -32,10 +34,11 @@
   </div>
   {% endif %}
 </div>
+{% if spider.owner == request.user.profile %}
 <div>
   <a href="{% url 'spider-update' spider.id %}" class="btn btn-info mx-2">Edit</a>
   <a href="{% url 'spider-delete-photo' spider.id %}" class="btn btn-warning mx-2">Delete photo</a>
   <a href="{% url 'spider-delete' spider.id %}" class="btn btn-danger mx-2">Delete</a>
 </div>
-
+{% endif %}
 {% endblock %}

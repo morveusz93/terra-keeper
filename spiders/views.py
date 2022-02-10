@@ -1,10 +1,10 @@
-import pstats
-from re import template
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 from django.views.generic import (DetailView, ListView, CreateView,
-UpdateView, DeleteView, RedirectView, TemplateView, FormView)
+UpdateView, DeleteView, RedirectView, TemplateView)
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 from spiders.custom_validators import molt_validator
 
@@ -21,6 +21,7 @@ class HomePageView(RedirectView):
         return super().get_redirect_url(*args, **kwargs)
 
 
+@method_decorator(login_required, name='dispatch')
 class SpiderListView(ListView):
     model = Spider
     context_object_name = 'spider_list'
@@ -34,11 +35,13 @@ class SpiderListView(ListView):
         return self.request.user.profile.spider_set.all()
 
 
+@method_decorator(login_required, name='dispatch')
 class SpiderDetailView(DetailView):
     model = Spider
     context_object_name = 'spider'
 
 
+@method_decorator(login_required, name='dispatch')
 class SpiderCreateView(CreateView):
     model = Spider
     form_class = SpiderForm
@@ -54,9 +57,18 @@ class SpiderCreateView(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
+@method_decorator(login_required, name='dispatch')
 class SpiderUpdateView(UpdateView):
     model = Spider
     form_class = SpiderForm
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.owner == self.request.user.profile:
+            return super().get(request, *args, **kwargs)
+        else:
+            messages.error(self.request, "You can not edit that spider. It doesnt below to you!")
+            return HttpResponseRedirect('/my-profile')
 
     def form_valid(self, form):
         form.save()
@@ -67,11 +79,20 @@ class SpiderUpdateView(UpdateView):
         return reverse('spider-details', kwargs={'pk': self.object.id})
 
 
+@method_decorator(login_required, name='dispatch')
 class SpiderDeleteView(DeleteView):
     model = Spider
     template_name = 'delete.html'
     context_object_name = 'obj'
     success_url = reverse_lazy('my-profile')
+    
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.owner == self.request.user.profile:
+            return super().get(request, *args, **kwargs)
+        else:
+            messages.error(self.request, "You can not delete that spider. It doesnt below to you!")
+            return HttpResponseRedirect('/my-profile')
 
     def delete(self, request, *args, **kwargs):
         messages.success(request, "Molt successfully deleted.")
@@ -79,6 +100,7 @@ class SpiderDeleteView(DeleteView):
 
 # -----------------------------------MOLTS-----------------------------------
 
+@method_decorator(login_required, name='dispatch')
 class MoltListView(ListView):
     model = Molt
     context_object_name = 'molt_list'
@@ -93,6 +115,7 @@ class MoltListView(ListView):
         return self.spider.molt_set.all()
 
 
+@method_decorator(login_required, name='dispatch')
 class MoltCreateView(CreateView):
     model = Molt
     form_class = MoltForm
@@ -103,6 +126,11 @@ class MoltCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['spider'] = self.spider
+        
+        if self.spider.owner != self.request.user.profile:
+            messages.error(self.request, "You can not add molt to that spider. It doesnt below to you!")
+            return HttpResponseRedirect('/my-profile')
+
         return context
 
     def get_initial(self):
@@ -126,6 +154,7 @@ class MoltCreateView(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
+@method_decorator(login_required, name='dispatch')
 class MoltUpdateView(UpdateView):
     model = Molt
     form_class = MoltForm
@@ -149,6 +178,7 @@ class MoltUpdateView(UpdateView):
         return reverse('spider-molts', kwargs={'pk': self.molt.spider.id})
 
 
+@method_decorator(login_required, name='dispatch')
 class MoltDeleteView(DeleteView):
     model = Molt
     template_name = 'delete.html'
@@ -162,6 +192,7 @@ class MoltDeleteView(DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
+@method_decorator(login_required, name='dispatch')
 class PhotoDeleteView(TemplateView):
     template_name = 'spiders/delete_photo.html'
 

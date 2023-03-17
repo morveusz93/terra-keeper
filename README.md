@@ -4,20 +4,15 @@
 
 ### What is Terra Keeper?
 
-Terra Keeper is a app for tarantulas keepers (leter i will add more animals) to organize your pets. You create an account and add your spiders to your list.
+Terra Keeper is a app for tarantulas keepers to organize infos about your pets. You can create an account and add your spiders to your list.
 
-### Why should I use it?
+## ScreenShots
 
-Terra Keeper will help you to organize your work with pets. You don't need sticky notes or excel files anymore. Everything you need will be HERE.
-
-### Features
-
-- List of spiders
-- Each spider has name, genus, spiecies, molt and size.
-- You can update it in any time.
-- Terra Keeper will remember all molts of your pets
-
-// more leter!!!
+![Alt text](readme-imgs/1.png)<br>
+![Alt text](readme-imgs/2.png)<br>
+![Alt text](readme-imgs/3.png)<br>
+![Alt text](readme-imgs/4.png)<br>
+![Alt text](readme-imgs/5.png)<br>
 
 ## Technologies
 
@@ -31,11 +26,10 @@ Terra Keeper will help you to organize your work with pets. You don't need stick
 
 ### To run this project:
 
-- download files
-- install all requirements
--
+- clone  repository
+- type commands:
  ```
-   python manage.py makemigrations
+   poetry install
    python manage.py migrate
    python manage.py runserver
   ```
